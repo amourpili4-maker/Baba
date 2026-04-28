@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Decimal Explorer | Form One Mathematics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(145deg, #f0f9ff 0%, #e6f0fa 100%);
+            color: #1a2c3e;
+            padding: 1.5rem;
+            line-height: 1.5;
+        }
+
+        /* main container */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.92);
+            border-radius: 2.5rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            backdrop-filter: blur(0px);
+            transition: all 0.2s;
+        }
+
+        /* header section */
+        .hero {
+            background: linear-gradient(135deg, #0b3b5f, #1b4f6e);
+            padding: 2rem 2rem 1.8rem;
+            color: white;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.6rem;
+            letter-spacing: -0.5px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #f4c542;
+            color: #1e3a4d;
+            padding: 0.3rem 0.9rem;
+            border-radius: 40px;
+            font-weight: bold;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* main content grid */
+        .content-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+            padding: 2rem 2rem 2rem 2rem;
+            background: #ffffffcc;
+        }
+
+        .lesson-card {
+            flex: 2;
+            min-width: 260px;
+            background: white;
+            border-radius: 1.8rem;
+            padding: 1.6rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
+            border: 1px solid #dceaf2;
+        }
+
+        .interactive-card {
+            flex: 1.5;
+            min-width: 280px;
+            background: white;
+            border-radius: 1.8rem;
+            padding: 1.6rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid #dceaf2;
+        }
+
+        .lesson-card h2, .interactive-card h2 {
+            font-size: 1.7rem;
+            border-left: 7px solid #2c7da0;
+            padding-left: 1rem;
+            margin-bottom: 1.2rem;
+            color: #0b3b5f;
+        }
+
+        .concept-box {
+            background: #fef9e6;
+            border-radius: 1.2rem;
+            padding: 1rem 1.3rem;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid #f4c542;
+        }
+
+        .definition {
+            font-size: 1.05rem;
+            margin: 0.8rem 0;
+        }
+
+        .highlight {
+            background: #e0f0fa;
+            font-weight: bold;
+            padding: 0.1rem 0.3rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 1.05rem;
+        }
+
+        .example {
+            background: #e9f5f0;
+            padding: 0.8rem 1.2rem;
+            border-radius: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-weight: 500;
+        }
+
+        .place-value {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .place-tile {
+            background: #1f6e8c;
+            color: white;
+            border-radius: 0.9rem;
+            padding: 0.5rem 1rem;
+            font-weight: bold;
+            text-align: center;
+            font-size: 0.9rem;
+            flex: 1 0 auto;
+            min-width: 65px;
+        }
+
+        .place-tile span {
+            display: block;
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
+
+        /* interactive quiz & converter */
+        .quiz-area {
+            background: #f8fafc;
+            border-radius: 1.2rem;
+            padding: 1.2rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .question {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin: 0.8rem 0;
+        }
+
+        .quiz-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.15s;
+            font-size: 0.9rem;
+        }
+
+        .quiz-btn:hover {
+            background: #cbd5e1;
+            transform: scale(0.97);
+        }
+
+        .feedback {
+            margin-top: 0.7rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.3rem;
+        }
+
+        .correct-feedback {
+            color: #0e6b3e;
+            background: #dff9e6;
+            border-radius: 1rem;
+            padding: 0.4rem 0.8rem;
+        }
+
+        .wrong-feedback {
+            color: #b91c1c;
+            background: #ffe5e5;
+            border-radius: 1rem;
+            padding: 0.4rem 0.8rem;
+        }
+
+        .converter {
+            background: #eef2f7;
+            border-radius: 1.2rem;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .converter input {
+            width: 100%;
+            padding: 0.7rem;
+            font-size: 1rem;
+            border: 2px solid #bdd3e6;
+            border-radius: 1rem;
+            margin: 0.5rem 0;
+            text-align: center;
+            font-family: monospace;
+        }
+
+        .result-box {
+            background: #1e2f3a;
+            color: #f0f9ff;
+            padding: 0.5rem;
+            border-radius: 1rem;
+            margin-top: 0.7rem;
+            font-weight: bold;
+        }
+
+        .interactive-practice {
+            margin-top: 1.5rem;
+        }
+
+        hr {
+            margin: 1rem 0;
+            border-color: #cbdde9;
+        }
+
+        footer {
+            background: #dce9f2;
+            text-align: center;
+            padding: 1.3rem;
+            font-size: 0.85rem;
+            color: #2c5a74;
+            border-top: 1px solid #c2d6e6;
+        }
+
+        @media (max-width: 780px) {
+            .hero h1 { font-size: 2rem; }
+            .content-grid { padding: 1.2rem; }
+            .place-tile { font-size: 0.7rem; min-width: 55px;}
+        }
+        button {
+            background: #2c7da0;
+            color: white;
+            border: none;
+            border-radius: 2rem;
+            padding: 0.4rem 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        button:hover {
+            background: #1f5e7a;
+        }
+        .num-button {
+            background: #f4c542;
+            color: #1e3a4d;
+            margin-top: 0.2rem;
+        }
+        .num-button:hover {
+            background: #e0b03b;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="hero">
+        <h1>🔢 Decimals Unlocked</h1>
+        <p>Master place value, operations & real-life uses — made simple for Form One</p>
+        <div class="badge">📐 For Form 1 Students | Interactive Learning</div>
+    </div>
+
+    <div class="content-grid">
+        <!-- LEFT SIDE: LESSON CONTENT -->
+        <div class="lesson-card">
+            <h2>📘 What is a Decimal?</h2>
+            <div class="concept-box">
+                <p class="definition">A <strong>decimal number</strong> is a number that has a <strong>decimal point</strong> separating the <strong>whole part</strong> from the <strong>fractional part</strong>.</p>
+                <p class="definition">👉 Example: <span class="highlight">3.14</span> → 3 is the whole number, .14 is the fraction (14 hundredths).</p>
+            </div>
+
+            <h2>🏛️ Place Value Chart (Tenths, Hundredths, Thousandths)</h2>
+            <div class="place-value">
+                <div class="place-tile">Hundreds<br><span>100</span></div>
+                <div class="place-tile">Tens<br><span>10</span></div>
+                <div class="place-tile">Ones<br><span>1</span></div>
+                <div class="place-tile" style="background:#f4a261;">•</div>
+                <div class="place-tile" style="background:#2a9d8f;">Tenths<br><span>0.1</span></div>
+                <div class="place-tile" style="background:#2a9d8f;">Hundredths<br><span>0.01</span></div>
+                <div class="place-tile" style="background:#2a9d8f;">Thousandths<br><span>0.001</span></div>
+            </div>
+
+            <div class="example">
+                💡 <strong>Reading decimals:</strong> 45.207 = "forty-five and two hundred seven thousandths"<br>
+                🧮 0.8 = eight tenths, 0.25 = twenty-five hundredths.
+            </div>
+
+            <h2>➕ Decimal Operations (Quick Tips)</h2>
+            <div class="concept-box">
+                <p>✔️ <strong>Addition / Subtraction:</strong> Line up decimal points, then add/subtract as usual.</p>
+                <p>✔️ <strong>Multiplication:</strong> Multiply normally, then count total decimal places in both factors.</p>
+                <p>✔️ <strong>Division:</strong> Move decimal point in divisor to make it whole, shift dividend equally.</p>
+                <div class="example">
+                    Example: 2.5 + 1.75 = 4.25 &nbsp;&nbsp;|&nbsp;&nbsp; 0.3 × 0.2 = 0.06
+                </div>
+            </div>
+
+            <h2>🌍 Real-life Decimals</h2>
+            <ul style="margin-left: 1.5rem; margin-bottom: 0.5rem; color: #2c3e50;">
+                <li>💰 Money: $12.99</li>
+                <li>📏 Measurements: 1.75 meters</li>
+                <li>⚖️ Weight: 2.5 kg</li>
+                <li>📊 Statistics & percentages: 0.75 = 75%</li>
+            </ul>
+        </div>
+
+        <!-- RIGHT SIDE: INTERACTIVE TOOLS & QUIZ -->
+        <div class="interactive-card">
+            <h2>🎯 Quick Quiz</h2>
+            <div class="quiz-area" id="quizArea">
+                <div class="question" id="quizQuestion">Loading question...</div>
+                <div class="options" id="quizOptions"></div>
+                <div class="feedback" id="quizFeedback"></div>
+            </div>
+
+            <h2>🧮 Decimal <-> Fraction Explorer</h2>
+            <div class="converter">
+                <label>🔢 Enter a decimal (e.g., 0.75) → see fraction:</label>
+                <input type="text" id="decimalInput" placeholder="Example: 0.25 or 2.5" value="0.375">
+                <button id="convertDecimalBtn">Convert to Fraction</button>
+                <div class="result-box" id="fractionResult">✏️ Fraction will appear here</div>
+            </div>
+
+            <div class="interactive-practice">
+                <h2>✍️ Build a Decimal Number</h2>
+                <p>Click digits to create decimal:</p>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 0.5rem 0;">
+                    <button class="num-button" data-digit="1">1</button>
+                    <button class="num-button" data-digit="2">2</button>
+                    <button class="num-button" data-digit="3">3</button>
+                    <button class="num-button" data-digit="4">4</button>
+                    <button class="num-button" data-digit="5">5</button>
+                    <button class="num-button" data-digit="6">6</button>
+                    <button class="num-button" data-digit="7">7</button>
+                    <button class="num-button" data-digit="8">8</button>
+                    <button class="num-button" data-digit="9">9</button>
+                    <button class="num-button" data-digit="0">0</button>
+                    <button id="addDecimalBtn" style="background:#f4c542; color:#1e3a4d;">.</button>
+                    <button id="clearBuilderBtn">C</button>
+                </div>
+                <div class="result-box" style="background:#eef2f7; color:#1e4663; word-break: break-all;" id="builderDisplay">
+                    Your number: <strong>0</strong>
+                </div>
+                <p style="font-size:0.85rem; margin-top:0.3rem;">📖 Read aloud: <span id="builderReading">zero</span></p>
+            </div>
+            <hr>
+            <p style="font-size: 0.85rem; text-align: center;">✨ Try: Which is bigger? 0.8 or 0.75? <strong>0.8</strong> (eight tenths > seventy-five hundredths)</p>
+        </div>
+    </div>
+    <footer>
+        🌟 Decimal masterclass for Form One | Practice daily & you'll be a decimals champion! 🌟
+    </footer>
+</div>
+
+<script>
+    // ---------- QUIZ DATA (questions with options and correct answer) ----------
+    const quizBank = [
+        {
+            question: "What is the place value of the digit '7' in the decimal 23.705?",
+            options: ["Tenths", "Hundredths", "Thousandths", "Ones"],
+            correct: "Thousandths"
+        },
+        {
+            question: "Which decimal is equivalent to 3/5?",
+            options: ["0.3", "0.35", "0.6", "0.06"],
+            correct: "0.6"
+        },
+        {
+            question: "Add: 12.5 + 3.75 = ?",
+            options: ["16.25", "15.25", "16.00", "15.75"],
+            correct: "16.25"
+        },
+        {
+            question: "Order from smallest to largest: 0.9, 0.09, 0.99",
+            options: ["0.09, 0.9, 0.99", "0.9, 0.09, 0.99", "0.99, 0.9, 0.09", "0.09, 0.99, 0.9"],
+            correct: "0.09, 0.9, 0.99"
+        },
+        {
+            question: "What is 0.45 × 10?",
+            options: ["4.5", "0.045", "45.0", "0.45"],
+            correct: "4.5"
+        }
+    ];
+
+    let currentQuizIndex = 0;
+    let quizLock = false;      // prevent double answer on same question until next
+
+    function loadQuiz() {
+        if (!quizBank.length) return;
+        const qData = quizBank[currentQuizIndex];
+        document.getElementById("quizQuestion").innerText = qData.question;
+        const optionsDiv = document.getElementById("quizOptions");
+        optionsDiv.innerHTML = "";
+        qData.options.forEach(opt => {
+            const btn = document.createElement("button");
+            btn.className = "quiz-btn";
+            btn.innerText = opt;
+            btn.addEventListener("click", () => checkAnswer(opt, qData.correct, btn));
+            optionsDiv.appendChild(btn);
+        });
+        document.getElementById("quizFeedback").innerHTML = "";
+        quizLock = false;
+    }
+
+    function checkAnswer(selected, correct, btnElement) {
+        if (quizLock) return;
+        quizLock = true;
+        const feedbackDiv = document.getElementById("quizFeedback");
+        if (selected === correct) {
+            feedbackDiv.innerHTML = `<div class="correct-feedback">✅ Correct! Well done. 🎉</div>`;
+            // auto-advance to next question after a short delay
+            setTimeout(() => {
+                currentQuizIndex = (currentQuizIndex + 1) % quizBank.length;
+                loadQuiz();
+            }, 1300);
+        } else {
+            feedbackDiv.innerHTML = `<div class="wrong-feedback">❌ Oops! The correct answer is "${correct}". Try next question.</div>`;
+            setTimeout(() => {
+                // move to next question after showing feedback, but keep learning flow
+                currentQuizIndex = (currentQuizIndex + 1) % quizBank.length;
+                loadQuiz();
+            }, 1800);
+        }
+        // disable all option buttons temporarily
+        const allOptBtns = document.querySelectorAll("#quizOptions .quiz-btn");
+        allOptBtns.forEach(btn => btn.style.pointerEvents = "none");
+        setTimeout(() => {
+            if (!document.querySelector("#quizOptions .quiz-btn")) return;
+            document.querySelectorAll("#quizOptions .quiz-btn").forEach(btn => btn.style.pointerEvents = "auto");
+        }, 1500);
+    }
+
+    // ---------- Decimal to Fraction Converter (simplified for learning) ----------
+    function decimalToFraction(decimalStr) {
+        let num = parseFloat(decimalStr);
+        if (isNaN(num)) return "⚠️ Please enter a valid number";
+        // handle integer or whole decimal part
+        let integerPart = Math.floor(num);
+        let fractional = num - integerPart;
+        if (Math.abs(fractional) < 1e-9) return `${integerPart} (whole number)`;
+        
+        // tolerance for repeating? but we do simple fraction based on 1/10^n
+        let strRep = fractional.toFixed(10).replace(/\.?0+$/, '');
+        let decimalDigits = strRep.split('.')[1] || "";
+        if (decimalDigits.length > 5) decimalDigits = decimalDigits.substring(0,5);
+        let denominator = Math.pow(10, decimalDigits.length);
+        let numerator = Math.round(fractional * denominator);
+        let gcd = function(a,b) { return b ? gcd(b, a%b) : a; };
+        let commonDiv = gcd(numerator, denominator);
+        numerator /= commonDiv;
+        denominator /= commonDiv;
+        let totalNumerator = integerPart * denominator + numerator;
+        if (integerPart !== 0) {
+            if (numerator === 0) return `${integerPart}`;
+            return `${integerPart} ${numerator}/${denominator}`;
+        } else {
+            return `${numerator}/${denominator}`;
+        }
+    }
+
+    function updateFraction() {
+        let inputVal = document.getElementById("decimalInput").value.trim();
+        let fractionResult = decimalToFraction(inputVal);
+        document.getElementById("fractionResult").innerHTML = `🔎 ${fractionResult}`;
+    }
+
+    // ---------- Decimal Builder with reading ----------
+    let builderNumberStr = "0";   // start with zero (string representation)
+    const builderDisplaySpan = document.getElementById("builderDisplay");
+    const builderReadingSpan = document.getElementById("builderReading");
+    
+    function updateBuilderDisplay() {
+        // ensure that the string does not have multiple decimal points, and format nicely
+        let displayNumber = builderNumberStr;
+        if (displayNumber === "") displayNumber = "0";
+        if (displayNumber.startsWith(".")) displayNumber = "0" + displayNumber;
+        // avoid trailing double decimal
+        builderDisplaySpan.innerHTML = `Your number: <strong>${displayNumber}</strong>`;
+        // reading logic: convert to number then read words
+        let numericVal = parseFloat(displayNumber);
+        if (isNaN(numericVal)) {
+            builderReadingSpan.innerText = "invalid format";
+            return;
+        }
+        // simple reading: show decimal representation
+        let reading = "";
+        if (Number.isInteger(numericVal)) {
+            reading = `${numericVal} point zero`;
+        } else {
+            let parts = displayNumber.split('.');
+            let whole = parts[0] === "" ? "0" : parts[0];
+            let frac = parts[1] || "";
+            reading = `${whole} point `;
+            for(let ch of frac) {
+                reading += `${ch} `;
+            }
+            reading = reading.trim();
+        }
+        builderReadingSpan.innerText = reading + (reading ? "" : "zero");
+    }
+    
+    function addDigitToBuilder(digit) {
+        if (digit === '.') {
+            if (builderNumberStr.includes('.')) return; // no double decimal
+            if (builderNumberStr === "") builderNumberStr = "0.";
+            else builderNumberStr += ".";
+        } else {
+            // replace initial "0" if it's leading zero and no decimal yet, unless we want to allow numbers like 05? better to avoid
+            if (builderNumberStr === "0" && digit !== '.') {
+                builderNumberStr = digit;
+            } else {
+                builderNumberStr += digit;
+            }
+        }
+        // limit length for readability but not necessary
+        if (builderNumberStr.length > 12) builderNumberStr = builderNumberStr.slice(0,12);
+        updateBuilderDisplay();
+    }
+    
+    function clearBuilder() {
+        builderNumberStr = "0";
+        updateBuilderDisplay();
+    }
+    
+    // attach number buttons
+    document.querySelectorAll(".num-button").forEach(btn => {
+        if(btn.id !== "addDecimalBtn" && btn.id !== "clearBuilderBtn") {
+            const digit = btn.getAttribute("data-digit");
+            btn.addEventListener("click", () => addDigitToBuilder(digit));
+        }
+    });
+    document.getElementById("addDecimalBtn")?.addEventListener("click", () => addDigitToBuilder('.'));
+    document.getElementById("clearBuilderBtn")?.addEventListener("click", clearBuilder);
+    
+    // Event for converter
+    document.getElementById("convertDecimalBtn")?.addEventListener("click", updateFraction);
+    document.getElementById("decimalInput")?.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") updateFraction();
+    });
+    
+    // initialize quiz on page load
+    window.addEventListener("DOMContentLoaded", () => {
+        loadQuiz();
+        updateFraction(); // initial fraction for 0.375
+        updateBuilderDisplay();
+        // set place value interactive tooltips: optional
+        const decimalSampleField = document.getElementById("decimalInput");
+        if(decimalSampleField) decimalSampleField.value = "0.375";
+        updateFraction();
+    });
+
+    // Bonus: additional explanation + tooltip for place value chart hover (just simple style)
+    const placeTiles = document.querySelectorAll('.place-tile');
+    placeTiles.forEach(tile => {
+        tile.setAttribute('title', 'Click to remember: each place is 10 times smaller to the right');
+    });
+</script>
+</body>
+</html>
